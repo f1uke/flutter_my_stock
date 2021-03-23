@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_stock/src/configs/app_route.dart';
 import 'package:my_stock/src/pages/login/background_theme.dart';
 import 'package:my_stock/src/view_models/sso_viewmodel.dart';
 
@@ -84,9 +85,9 @@ class LoginPage extends StatelessWidget {
                           final username = _usernameController.text;
                           final password = _passwordController.text;
 
-                          if (username == 'admin@gmail.com' &&
+                          if (username == '12345678' &&
                               password == '12345678') {
-                            print('login success');
+                            Navigator.pushReplacementNamed(context, AppRoute.homeRoute);
                           } else {
                             print('username or password incorrect!!');
                           }
@@ -128,7 +129,8 @@ class LoginPage extends StatelessWidget {
     final gradientStart = BackgroundTheme().gradientStart;
     final gradientEnd = BackgroundTheme().gradientEnd;
 
-    final boxShadowItem = (Color color) => BoxShadow(
+    final boxShadowItem = (Color color) =>
+        BoxShadow(
           color: color,
           offset: Offset(1.0, 6.0),
           blurRadius: 20.0,
@@ -181,14 +183,16 @@ class SSOButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: SSOViewModel()
             .item
-            .map((item) => FloatingActionButton(
-                  onPressed: item.onPressed,
-                  child: FaIcon(
-                    item.icon,
-                    color: item.iconColor,
-                  ),
-                  backgroundColor: item.backgroundColor,
-                ))
+            .map((item) =>
+            FloatingActionButton(
+              heroTag: item.backgroundColor.toString(),
+              onPressed: item.onPressed,
+              child: FaIcon(
+                item.icon,
+                color: item.iconColor,
+              ),
+              backgroundColor: item.backgroundColor,
+            ))
             .toList(),
       ),
     );
