@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_stock/src/pages/login/background_theme.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -9,14 +10,7 @@ class LoginPage extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                    Color(0XFF2980b9),
-                    Color(0XFF2c3e50),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 1.0]),
+              gradient: BackgroundTheme.gradient,
             ),
           ),
           SingleChildScrollView(
@@ -24,7 +18,11 @@ class LoginPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 32),
-                Image.asset('assets/images/logo.png', width: 150, height: 150,),
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 150,
+                  height: 150,
+                ),
                 SizedBox(height: 32),
                 Stack(
                   alignment: Alignment.bottomCenter,
@@ -69,11 +67,12 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    Container(
+                      decoration: _boxDecoration(),
                       width: 280,
                       height: 50,
-                      child: ElevatedButton(
-                        onPressed: (){
+                      child: TextButton(
+                        onPressed: () {
                           print('login clicked!!');
                         },
                         child: Text(
@@ -81,6 +80,7 @@ class LoginPage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
+                            color: Colors.indigo,
                           ),
                         ),
                       ),
@@ -97,4 +97,33 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+
+  BoxDecoration _boxDecoration() {
+    final gradientStart = BackgroundTheme().gradientStart;
+    final gradientEnd = BackgroundTheme().gradientEnd;
+
+    final boxShadowItem = (Color color) => BoxShadow(
+      color: color,
+      offset: Offset(1.0, 6.0),
+      blurRadius: 20.0,
+    );
+
+    return BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+      boxShadow: <BoxShadow>[
+        boxShadowItem(gradientStart),
+        boxShadowItem(gradientEnd),
+      ],
+      gradient: LinearGradient(
+        colors: [
+          gradientEnd,
+          gradientStart,
+        ],
+        begin: const FractionalOffset(0, 0),
+        end: const FractionalOffset(1.0, 1.0),
+        stops: [0.0, 1.0],
+      ),
+    );
+  }
+
 }
