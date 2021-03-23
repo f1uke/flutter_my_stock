@@ -87,9 +87,19 @@ class LoginPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text('login button'),
+                _buildTextButton(
+                  'forgot password?',
+                  onPressed: () {
+                    //todo
+                  },
+                ),
                 Text('forgot password'),
-                Text('sso'),
+                _buildTextButton(
+                  'register',
+                  onPressed: () {
+                    //todo
+                  },
+                ),
               ],
             ),
           )
@@ -103,13 +113,13 @@ class LoginPage extends StatelessWidget {
     final gradientEnd = BackgroundTheme().gradientEnd;
 
     final boxShadowItem = (Color color) => BoxShadow(
-      color: color,
-      offset: Offset(1.0, 6.0),
-      blurRadius: 20.0,
-    );
+          color: color,
+          offset: Offset(1.0, 6.0),
+          blurRadius: 20.0,
+        );
 
     return BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+      borderRadius: BorderRadius.all(Radius.circular(15.0)),
       boxShadow: <BoxShadow>[
         boxShadowItem(gradientStart),
         boxShadowItem(gradientEnd),
@@ -126,4 +136,17 @@ class LoginPage extends StatelessWidget {
     );
   }
 
+   Container _buildTextButton(String text, {VoidCallback onPressed}) => Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      width: double.infinity,
+      child: TextButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Colors.white70,
+          ),
+        ),
+      ),
+    );
 }
