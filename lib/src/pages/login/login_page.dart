@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_stock/src/configs/app_route.dart';
+import 'package:my_stock/src/constants/app_setting.dart';
+import 'package:my_stock/src/constants/asset.dart';
 import 'package:my_stock/src/pages/login/background_theme.dart';
 import 'package:my_stock/src/view_models/sso_viewmodel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   final _usernameController = TextEditingController();
@@ -25,7 +28,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 SizedBox(height: 32),
                 Image.asset(
-                  'assets/images/logo.png',
+                  Asset.logoImage,
                   width: 150,
                   height: 150,
                 ),
@@ -81,13 +84,24 @@ class LoginPage extends StatelessWidget {
                       width: 280,
                       height: 50,
                       child: TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           final username = _usernameController.text;
                           final password = _passwordController.text;
 
                           if (username == '12345678' &&
                               password == '12345678') {
-                            Navigator.pushReplacementNamed(context, AppRoute.homeRoute);
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+
+                            var token = 'kfsjgl3kr13rani80c8h4y';
+                            prefs.setString(AppSetting.tokenSetting, token);
+                            prefs.setString(
+                                AppSetting.usernameSetting, username);
+
+                            Navigator.pushReplacementNamed(
+                              context,
+                              AppRoute.homeRoute,
+                            );
                           } else {
                             print('username or password incorrect!!');
                           }
@@ -129,8 +143,7 @@ class LoginPage extends StatelessWidget {
     final gradientStart = BackgroundTheme().gradientStart;
     final gradientEnd = BackgroundTheme().gradientEnd;
 
-    final boxShadowItem = (Color color) =>
-        BoxShadow(
+    final boxShadowItem = (Color color) => BoxShadow(
           color: color,
           offset: Offset(1.0, 6.0),
           blurRadius: 20.0,
@@ -183,16 +196,15 @@ class SSOButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: SSOViewModel()
             .item
-            .map((item) =>
-            FloatingActionButton(
-              heroTag: item.backgroundColor.toString(),
-              onPressed: item.onPressed,
-              child: FaIcon(
-                item.icon,
-                color: item.iconColor,
-              ),
-              backgroundColor: item.backgroundColor,
-            ))
+            .map((item) => FloatingActionButton(
+                  heroTag: item.backgroundColor.toString(),
+                  onPressed: item.onPressed,
+                  child: FaIcon(
+                    item.icon,
+                    color: item.iconColor,
+                  ),
+                  backgroundColor: item.backgroundColor,
+                ))
             .toList(),
       ),
     );
