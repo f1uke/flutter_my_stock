@@ -19,6 +19,7 @@ class NetworkService {
           requestOptions.baseUrl = API.BASE_URL;
           requestOptions.connectTimeout = 5000;
           requestOptions.receiveTimeout = 3000;
+          print(requestOptions.uri);
           return requestOptions;
         },
         onResponse: (Response response) async {
