@@ -118,13 +118,24 @@ class _ManagementPageState extends State<ManagementPage> {
               _form.currentState.save();
               FocusScope.of(context).requestFocus(FocusNode());
               if (_editMode) {
-                //todo
+                try {
+                  final message =
+                  await NetworkService().editProduct(null, _product);
+                  Navigator.pop(context);
+                  showAlertBar(message);
+                } catch (e) {
+                  showAlertBar(
+                    e.toString(),
+                    color: Colors.red,
+                    icon: FontAwesomeIcons.cross,
+                  );
+                }
               } else {
                 try {
                   final message =
                       await NetworkService().addProduct(null, _product);
-                  // showAlertBar(message);
                   Navigator.pop(context);
+                  showAlertBar(message);
                 } catch (e) {
                   showAlertBar(
                     e.toString(),
