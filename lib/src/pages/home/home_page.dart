@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                   constrain.maxHeight,
                   productList[index],
                   press: () {
-                    print('Pressed!');
+                    Navigator.pushNamed(context, AppRoute.managementRoute, arguments: productList[index]);
                   },
                 ),
               ),
@@ -69,8 +69,11 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, AppRoute.managementRoute);
+        onPressed: () async {
+          await Navigator.pushNamed(context, AppRoute.managementRoute);
+          setState(() {
+
+          });
         },
         tooltip: 'Increment',
         backgroundColor: BackgroundTheme().gradientEnd,
